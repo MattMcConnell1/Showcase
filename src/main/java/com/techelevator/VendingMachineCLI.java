@@ -20,6 +20,7 @@ public class VendingMachineCLI {
 
 	public void run() {
 		List<Product> products = readProductFromFile("main.csv");
+		System.out.println();
 		VendingMachine vendingMachine = new VendingMachine(products);
 		Scanner scanner = new Scanner(System.in);
 		boolean exit = false;
@@ -29,7 +30,7 @@ public class VendingMachineCLI {
 			int choice = scanner.nextInt();
 			switch (choice){
 				case 1:
-					vendingMachine.displayProducts();
+
 					break;
 				case 2:
 				case 3:
