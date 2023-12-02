@@ -5,7 +5,7 @@ public class Product {
     private String name;
     private double price;
     private String type;
-    private int quantity;
+    private int quantity = 5;
 
 
     public String getName() {
@@ -28,7 +28,17 @@ public class Product {
         return slotLocation;
     }
 
-    public Product(String slotLocation,String name, double price, String type, int quantity) {
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public void decreaseQuantity(){
+        if (quantity > 0){
+            quantity--;
+        }
+    }
+
+    public Product(String slotLocation, String name, double price, String type, int quantity) {
         this.name = name;
         this.price = price;
         this.type = type;

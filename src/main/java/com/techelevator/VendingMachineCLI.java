@@ -3,6 +3,7 @@ package com.techelevator;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -12,6 +13,7 @@ import java.util.Scanner;
  * your project. Feel free to refactor this code as you see fit.
  */
 public class VendingMachineCLI {
+	private final Scanner scanner = new Scanner(System.in);
 
 	public static void main(String[] args) {
 		VendingMachineCLI cli = new VendingMachineCLI();
@@ -22,7 +24,6 @@ public class VendingMachineCLI {
 		List<Product> products = readProductFromFile("main.csv");
 		System.out.println();
 		VendingMachine vendingMachine = new VendingMachine(products);
-		Scanner scanner = new Scanner(System.in);
 		boolean exit = false;
 		while(!exit){
 			VendingMachine.displayMain();
@@ -30,9 +31,11 @@ public class VendingMachineCLI {
 			int choice = scanner.nextInt();
 			switch (choice){
 				case 1:
-
+					vendingMachine.displayProduct();
 					break;
 				case 2:
+					handlePurchaseMenu(vendingMachine, scanner);
+					break;
 				case 3:
 					exit = true;
 					break;
@@ -46,12 +49,12 @@ public class VendingMachineCLI {
 
 	private static List<Product> readProductFromFile(String filename) {
 		List<Product> products = new ArrayList<>();
+
 		File input = new File(filename);
 		if (input.exists()&& input.isFile()){
 			try(Scanner inputScanner = new Scanner(input)){
 				while (inputScanner.hasNextLine()){
 					String currentLine = inputScanner.nextLine();
-					System.out.println(currentLine);
 					String[] splitValues = currentLine.split(",");
 					String slotLocation = splitValues[0];
 					String name  = splitValues[1];
@@ -59,7 +62,7 @@ public class VendingMachineCLI {
 					double priceDou = Double.parseDouble(price);
 					String type = splitValues[3];
 					int quality = 5;
-					Product product = new Product(slotLocation,name,priceDou,type,quality);
+					Product product = new Product(slotLocation,name,priceDou,type,5);
 					products.add(product);
 				}
 
@@ -68,6 +71,32 @@ public class VendingMachineCLI {
 			}
 		}
 		return products;
+	}
+	private static void handlePurchaseMenu(VendingMachine vendingMachine, Scanner scanner) {
+		boolean goBack = false;
+
+		while (!goBack) {
+			vendingMachine.displayOption();
+			System.out.println("Select an option: ");
+			int choice = scanner.nextInt();
+			scanner.nextLine();
+
+			switch (choice){
+				case 1:
+					vendingMachine.feedMoney(scanner);
+					break;
+				case 2:
+					vendingMachine.selectedProduct(scanner);
+					break;
+				case 3:
+					vendingMachine.completeTransaction();
+					VendingMachine.displayMain();
+					goBack = true;
+					break;
+				default:
+					System.out.println("invalid option, Please try again.");
+			}
+		}
 	}
 
 }
