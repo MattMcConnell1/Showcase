@@ -5,7 +5,7 @@ public class Product {
     private String name;
     private double price;
     private String type;
-    private int quantity = 5;
+    private int quantity;
 
 
     public String getName() {
@@ -21,7 +21,7 @@ public class Product {
     }
 
     public int getQuantity() {
-        return quantity =5;
+        return quantity;
     }
 
     public String getSlotLocation() {
