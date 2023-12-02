@@ -24,8 +24,8 @@ public class VendingMachineCLI {
 		List<Product> products = readProductFromFile("main.csv");
 		System.out.println();
 		VendingMachine vendingMachine = new VendingMachine(products);
-		boolean exit = false;
-		while(!exit){
+		boolean exitProgram = false;
+		while(!exitProgram){
 			VendingMachine.displayMain();
 			System.out.println("Please Select an option: ");
 			int choice = scanner.nextInt();
@@ -37,7 +37,7 @@ public class VendingMachineCLI {
 					handlePurchaseMenu(vendingMachine, scanner);
 					break;
 				case 3:
-					exit = true;
+					exitProgram = true;
 					break;
 				default:
 					System.out.println("Invalid option> Please try again");
@@ -51,18 +51,28 @@ public class VendingMachineCLI {
 		List<Product> products = new ArrayList<>();
 
 		File input = new File(filename);
+
 		if (input.exists()&& input.isFile()){
+
 			try(Scanner inputScanner = new Scanner(input)){
 				while (inputScanner.hasNextLine()){
+
 					String currentLine = inputScanner.nextLine();
+
 					String[] splitValues = currentLine.split(",");
+
 					String slotLocation = splitValues[0];
+
 					String name  = splitValues[1];
+
 					String price = splitValues[2];
+
 					double priceDou = Double.parseDouble(price);
+
 					String type = splitValues[3];
-					int quality = 5;
+
 					Product product = new Product(slotLocation,name,priceDou,type,5);
+
 					products.add(product);
 				}
 
@@ -86,7 +96,7 @@ public class VendingMachineCLI {
 					vendingMachine.feedMoney(scanner);
 					break;
 				case 2:
-					vendingMachine.selectedProduct(scanner);
+					vendingMachine.selectProduct(scanner);
 					break;
 				case 3:
 					vendingMachine.completeTransaction();

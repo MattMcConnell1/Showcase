@@ -21,7 +21,7 @@ public class Product {
     }
 
     public int getQuantity() {
-        return quantity =5;
+        return quantity;
     }
 
     public String getSlotLocation() {
@@ -31,6 +31,7 @@ public class Product {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
 
     public void decreaseQuantity(){
         if (quantity > 0){
@@ -44,5 +45,13 @@ public class Product {
         this.type = type;
         this.quantity = quantity;
         this.slotLocation = slotLocation;
+    }
+
+    public String dispenseMessage(String message){
+        return "";
+    }
+
+    public String dispenseMessage(){
+        return "";
     }
 }

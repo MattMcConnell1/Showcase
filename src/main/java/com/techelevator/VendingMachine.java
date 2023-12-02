@@ -9,6 +9,12 @@ public class VendingMachine {
     private double currentBalance;
     private double discount;
 
+    private int discountCounter;
+
+    public int getDiscountCounter() {
+        return discountCounter;
+    }
+
     public VendingMachine(List<Product> products) {
         this.products = products;
         this.currentBalance = 0.00;
@@ -44,8 +50,8 @@ public class VendingMachine {
     public void displayProduct(){
         System.out.println("Items list: ");
         for(Product product: products){
-            System.out.println("Slot#: " + product.getSlotLocation() + " " + product.getName()+" " + product.getPrice()+
-                    " " + product.getType() + " " + product.getQuantity());
+            System.out.println("Slot#: " + product.getSlotLocation() + " Name: " + product.getName()+ " Price: " + product.getPrice()+
+                    " Type: " + product.getType() + " Remaining Quantity: " + product.getQuantity());
         }
     }
 
@@ -72,7 +78,7 @@ public class VendingMachine {
 
     }
 
-    public void selectedProduct (Scanner scanner) {
+    public void selectProduct (Scanner scanner) {
         displayProduct();
 
         System.out.println("Enter the slot code to select a product: ");
@@ -80,17 +86,24 @@ public class VendingMachine {
 
         Product selectedProduct = findProductBySlotCode(slotCode);
 
-        if (selectedProduct == null){
-            System.out.println("Invalid product code. Please try again.");
-        } else if (selectedProduct.getQuantity() == 0){
-            System.out.println("Sorry, this items is SOLD OUT. Please choose another product.");
-        } else if (currentBalance < selectedProduct.getPrice()){
-            System.out.println("Insufficient funds. Please feed more money.");
-        } else {
-            dispenseProduct(selectedProduct);
+        if (selectedProduct != null && selectedProduct.getQuantity() > 0){
             currentBalance -= selectedProduct.getPrice();
             System.out.printf("Dispensed: %s. Remaining Balance: $%.2f%n", selectedProduct.getName(), currentBalance);
+            selectedProduct.setQuantity(selectedProduct.getQuantity() - 1);
+            System.out.println("Remaining quantity : " + selectedProduct.getQuantity());
+
+        } else if (selectedProduct.getQuantity() == 0) {
+            System.out.println("Sorry, this items is SOLD OUT. Please choose another product.");
+        } else  if(currentBalance < selectedProduct.getPrice()){
+            System.out.println("Insufficient funds. Please feed more money.");
+        } else {
+            System.out.println("Invalid product selection. Try Again!");
         }
+//        double discountPrice = dispenseDiscountProduct(selectedProduct.getPrice());
+//        if (currentBalance >= discountPrice){
+//            dispenseProduct(selectedProduct,discountPrice);
+//        }
+//
     }
 
     private Product findProductBySlotCode(String slotCode){
@@ -103,7 +116,16 @@ public class VendingMachine {
     }
 
     private void dispenseProduct(Product product){
-        System.out.println("Dispensing: " + product.getName());
-        product.decreaseQuantity();
+        
+        discount += 1.00;
+    }
+
+    private double dispenseDiscountProduct(double normalPrice) {
+        if (discount > 0) {
+            discount = 0;
+            return normalPrice - 1.00;
+        } else {
+            return normalPrice;
+        }
     }
 }
