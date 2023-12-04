@@ -1,6 +1,5 @@
 package com.techelevator;
 
-import java.sql.SQLOutput;
 import java.util.List;
 import java.util.Scanner;
 
@@ -10,7 +9,9 @@ public class VendingMachine {
     private double discount;
     private int discountCounter;
 
+    public VendingMachine() {
 
+    }
     public int getDiscountCounter() {
         return discountCounter;
     }
@@ -40,7 +41,7 @@ public class VendingMachine {
     }
 
     public void displayOption() {
-        System.out.println("Current Money Provide:" + getCurrentBalance());
+        System.out.println("Current Money Provided:" + getCurrentBalance());
         System.out.println();
         System.out.println("(1) Feed Money");
         System.out.println("(2) Select product");
@@ -88,6 +89,8 @@ public class VendingMachine {
 
     }
 
+
+
     public void selectProduct (Scanner scanner) {
         displayProduct();
 
@@ -103,14 +106,33 @@ public class VendingMachine {
             System.out.println("Insufficient funds. Please feed more money.");
         } else if( discountCounter > 0){
             dispenseProduct(selectedProduct);
+            TransactionLog.giveProductHistory(selectedProduct,selectedProduct.getPrice(),currentBalance);
             currentBalance -= applyDiscount(selectedProduct);
             System.out.printf("Dispensed: %s. Remaining Balance: $%.2f%n", selectedProduct.getName(), currentBalance);
+            if (selectedProduct.getType().contains("Munchy")){
+                System.out.println("Crunch Crunch, Yum!");
+            } else if (selectedProduct.getType().contains("Drink")){
+                System.out.println("Glug Glug, Yum!");
+            } else if (selectedProduct.getType().contains("Gum")){
+                System.out.println("Chew Chew, Yum!");
+            } else if (selectedProduct.getType().contains("Candy")) {
+                System.out.println("Yummy Yummy, So Sweet!");
+            }
             System.out.println("Item was discounted $1.00 !");
         }else {
             dispenseProduct(selectedProduct);
+            TransactionLog.giveProductHistory(selectedProduct,selectedProduct.getPrice(),currentBalance);
             currentBalance -= selectedProduct.getPrice();
             System.out.printf("Dispensed: %s. Remaining Balance: $%.2f%n", selectedProduct.getName(), currentBalance);
-
+            if (selectedProduct.getType().contains("Munchy")){
+                System.out.println("Crunch Crunch, Yum!");
+            } else if (selectedProduct.getType().contains("Drink")){
+                System.out.println("Glug Glug, Yum!");
+            } else if (selectedProduct.getType().contains("Gum")){
+                System.out.println("Chew Chew, Yum!");
+            } else if (selectedProduct.getType().contains("Candy")) {
+                System.out.println("Yummy Yummy, So Sweet!");
+            }
         }
 
     }
@@ -137,7 +159,7 @@ public class VendingMachine {
         if (discountCounter > 0) {
             double discountPrice =  product.getPrice() -1.00;
             discountCounter = 0; // Reset the counter only when there is a discount
-            
+
             return discountPrice;
         }
         return product.getPrice();
