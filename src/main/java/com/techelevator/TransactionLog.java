@@ -1,13 +1,12 @@
 package com.techelevator;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 public class TransactionLog {
-
-
     private static void transactionHistory (String activity, double amount, double newBalance){
         File output = new File("log.txt");
 
@@ -37,3 +36,4 @@ public class TransactionLog {
         transactionHistory(product.getName() + " " + product.getSlotLocation(), amount, newBalance);
     }
 }
+

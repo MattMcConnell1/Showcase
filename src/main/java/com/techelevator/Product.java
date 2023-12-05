@@ -39,6 +39,11 @@ public class Product {
         }
     }
 
+    public Product(){
+
+
+    }
+
     public Product(String slotLocation, String name, double price, String type, int quantity) {
         this.name = name;
         this.price = price;
