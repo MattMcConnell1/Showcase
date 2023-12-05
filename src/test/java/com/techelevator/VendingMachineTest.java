@@ -1,15 +1,27 @@
 package com.techelevator;
 
 import org.junit.Before;
+<<<<<<< HEAD
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+=======
+import org.junit.Test;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
+
+import static org.junit.Assert.*;
+>>>>>>> 04aee4501bc9e22e94b2b562734f14eac4d229e1
 
 public class VendingMachineTest {
 
     public VendingMachine vendingMachine;
+<<<<<<< HEAD
     public Product product;
     @Before
     public void setup(){
@@ -126,3 +138,19 @@ public class VendingMachineTest {
 
     }
 }
+=======
+
+    @Before
+    public void setup(){
+        vendingMachine = new VendingMachine();
+    }
+
+    @Test
+    public  void test_feed_money_return_correct_balance(){
+        InputStream inputStream = new ByteArrayInputStream("5\n".getBytes());
+        Scanner scanner = new Scanner(inputStream);
+//        VendingMachine.feedMoney(scanner);
+    }
+
+}
+>>>>>>> 04aee4501bc9e22e94b2b562734f14eac4d229e1

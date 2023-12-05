@@ -52,11 +52,4 @@ public class Product {
         this.slotLocation = slotLocation;
     }
 
-    public String dispenseMessage(String message){
-        return "";
-    }
-
-    public String dispenseMessage(){
-        return "";
-    }
 }

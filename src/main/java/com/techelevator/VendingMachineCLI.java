@@ -2,8 +2,6 @@ package com.techelevator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -94,13 +92,15 @@ public class VendingMachineCLI {
 			switch (choice){
 				case 1:
 					vendingMachine.feedMoney(scanner);
+					TransactionLog.feedMoneyHistory(vendingMachine.getCurrentBalance(), vendingMachine.getCurrentBalance());
 					break;
 				case 2:
 					vendingMachine.selectProduct(scanner);
 					break;
 				case 3:
+					TransactionLog.giveChangeHistory(vendingMachine.getCurrentBalance(), 0.00);
 					vendingMachine.completeTransaction();
-					VendingMachine.displayMain();
+//					VendingMachine.displayMain();
 					goBack = true;
 					break;
 				default:
