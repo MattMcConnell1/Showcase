@@ -1,5 +1,6 @@
 package com.techelevator;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -23,12 +24,12 @@ public class VendingMachineTest {
 
     public VendingMachine vendingMachine;
     public Product product;
+
     @Before
     public void setup(){
         vendingMachine = new VendingMachine();
         product = new Product();
     }
-
 
     @Test
     public void itemReturnsCorrect(){
@@ -138,39 +139,90 @@ public class VendingMachineTest {
     }
 
     @Test
-    public void test_feed_5_return_correct_balance() {
-        InputStream inputStream = new ByteArrayInputStream("5\n".getBytes());
+    public void test_Feed_Money_5_return_5() {
+        // Arrange
+        VendingMachine vendingMachine = new VendingMachine();
+        double initialBalance = vendingMachine.getCurrentBalance();
+
+        // Simulate user input of "5\n"
+        String userInput = "5\n";
+        InputStream inputStream = new ByteArrayInputStream(userInput.getBytes());
         Scanner scanner = new Scanner(inputStream);
-        VendingMachine.feedMoney(scanner);
-        assertEquals(5, vendingMachine.getCurrentBalance(), 0.01);
 
-    }
-    @Test
-    public void test_feed_7_return_correct_balance() {
-        InputStream input = new ByteArrayInputStream("7\n".getBytes());
-        Scanner scanner1 = new Scanner(input);
-        VendingMachine.feedMoney(scanner1);
-        assertEquals(7,vendingMachine.getCurrentBalance(),0.01);
+        // Act
+        vendingMachine.feedMoney(scanner);
+
+        // Assert
+        double expectedBalance = initialBalance + 5.0;
+        assertEquals(expectedBalance, vendingMachine.getCurrentBalance(), 0.01);
     }
 
     @Test
-    public void test_return_correct_change(){
-        // I googled it- redirect system.out to capture printed output
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outputStream));
-        // Set a balance for testing.
+    public void test_Feed_Money_12_return_12() {
+        VendingMachine vendingMachine = new VendingMachine();
+        double initialBalance = vendingMachine.getCurrentBalance();
+
+        String userInput = "12\n";
+        InputStream inputStream = new ByteArrayInputStream(userInput.getBytes());
+        Scanner scanner = new Scanner(inputStream);
+
+        vendingMachine.feedMoney(scanner);
+
+        double expectedBalance = initialBalance + 12.0;
+        assertEquals(expectedBalance, vendingMachine.getCurrentBalance(), 0.01);
+    }
+
+
+    @Test
+    public void test_Return_Change_return_correct_amount() {
+        // Redirect System.out to capture printed output
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+
+        // Create a VendingMachine instance for testing
+        VendingMachine vendingMachine = new VendingMachine();
+
+        // Set a balance for testing (e.g., $1.45)
         vendingMachine.setCurrentBalance(1.45);
-        // call the return method.
-        vendingMachine.returnChange();
-        // restore the standard output.
-        System.setOut(System.out);
-        // get the capture output
-        String printedOutput = outputStream.toString().trim();
-        // Expected result:
-        String expected = "Returning change : 5 quarters 2 dimes 0 nickels";
-        assertEquals(expected,printedOutput);
 
+        // Call the returnChange method
+        vendingMachine.returnChange();
+
+        // Restore the standard output
+        System.setOut(System.out);
+
+        // Get the captured output
+        String printedOutput = outContent.toString().trim();
+
+        // Expected result based on $1.45: 5 quarters, 2 dimes, 0 nickels
+        String expectedOutput = "Returning change : 5 quarters 2 dimes 0 nickels";
+
+        assertEquals(expectedOutput, printedOutput);
     }
+
+    @Test
+    public void test_Return_Change_5_return_correct_amount() {
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+
+        VendingMachine vendingMachine = new VendingMachine();
+
+        vendingMachine.setCurrentBalance(5.00);
+
+        vendingMachine.returnChange();
+
+        System.setOut(System.out);
+
+        String printedOutput = outContent.toString().trim();
+
+        String expectedOutput = "Returning change : 20 quarters 0 dimes 0 nickels";
+
+        assertEquals(expectedOutput, printedOutput);
+    }
+
+
+
+
 
 
 

@@ -70,9 +70,8 @@ public class VendingMachine {
             scanner.next();
         }
 
-        int amount = scanner.nextInt();
+        double amount = scanner.nextDouble();
         currentBalance += amount;
-//        System.out.println("Current Money Provided: " + currentBalance);
     }
 
     public void completeTransaction() {
