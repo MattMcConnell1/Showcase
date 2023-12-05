@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class VendingMachine {
     private static List<Product> products;
-    private double currentBalance;
+    private static double currentBalance;
     private double discount;
     private int discountCounter;
 
@@ -28,6 +28,10 @@ public class VendingMachine {
 
     public double getCurrentBalance() {
         return currentBalance;
+    }
+
+    public static void setCurrentBalance(double currentBalance) {
+        VendingMachine.currentBalance = currentBalance;
     }
 
     public double getDiscount() {
@@ -56,7 +60,7 @@ public class VendingMachine {
         }
     }
 
-    public void feedMoney(Scanner scanner) {
+    public static void feedMoney(Scanner scanner) {
         System.out.println("Enter amount to feed (Whole dollar only): ");
 
 
@@ -77,7 +81,7 @@ public class VendingMachine {
         System.out.println("Transaction finished. Returning to main menu.");
     }
 
-    private void returnChange() {
+    public void returnChange() {
         int remainingBalance = (int) (currentBalance * 100);
         int quarters = remainingBalance / 25;
         remainingBalance %= 25;
@@ -85,7 +89,7 @@ public class VendingMachine {
         remainingBalance %= 10;
         int nickels = remainingBalance / 5;
 
-        System.out.println("Returning change : " + quarters + " quarter " + dimes + " dimes " + nickels + " nickels");
+        System.out.println("Returning change : " + quarters + " quarters " + dimes + " dimes " + nickels + " nickels");
 
     }
 
