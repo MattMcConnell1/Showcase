@@ -21,6 +21,15 @@ public class User {
       this.activated = true;
    }
 
+   public User(String username) {
+      this.username = username;
+   }
+
+   public User(int userId) {
+      this.id = userId;
+   }
+
+
    public int getId() {
       return id;
    }
