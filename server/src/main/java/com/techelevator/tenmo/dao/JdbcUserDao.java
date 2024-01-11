@@ -1,6 +1,8 @@
 package com.techelevator.tenmo.dao;
 
+import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.User;
+import com.techelevator.tenmo.model.UserAccountView;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -9,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,8 +72,18 @@ public class JdbcUserDao implements UserDao {
 
         // TODO: Create the account record with initial balance
 
+       String sqlAccount = "INSERT INTO account (user_id, balance) VALUES (?, ?) RETURNING account_id";
+        double initialBalance = 1000.00;
+            int accountId;
+        try {
+            accountId = jdbcTemplate.queryForObject(sqlAccount,Integer.class, newUserId, initialBalance);
+        } catch (DataAccessException e){
+            return false;
+        }
         return true;
     }
+
+
 
     private User mapRowToUser(SqlRowSet rs) {
         User user = new User();

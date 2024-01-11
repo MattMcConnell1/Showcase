@@ -1,6 +1,7 @@
 package com.techelevator.tenmo.model;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -11,14 +12,17 @@ public class User {
    private String password;
    private boolean activated;
    private Set<Authority> authorities = new HashSet<>();
+   private List<Account> account;
 
    public User() { }
 
-   public User(int id, String username, String password, String authorities) {
+   public User(int id, String username, String password, boolean activated, Set<Authority> authorities, List<Account> account) {
       this.id = id;
       this.username = username;
       this.password = password;
-      this.activated = true;
+      this.activated = activated;
+      this.authorities = authorities;
+      this.account = account;
    }
 
    public User(String username) {
@@ -75,6 +79,10 @@ public class User {
       for(String role : roles) {
          this.authorities.add(new Authority("ROLE_" + role));
       }
+   }
+
+   public void addAccount(Account account){
+      this.account.add(account);
    }
 
    @Override
