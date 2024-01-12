@@ -14,6 +14,8 @@ public class Transfer {
     private String transferStatus;
     private double senderBalance;
     private double receiverBalance;
+
+
     private int senderAccountId;
     private int receiverAccountId;
     private double transferAmount;
@@ -31,7 +33,10 @@ public class Transfer {
         this.senderAccountId = senderAccountId;
         this.receiverAccountId = receiverAccountId;
         this.transferAmount = transferAmount;
+
     }
+
+
 
     public Transfer() {
 
@@ -125,6 +130,9 @@ public class Transfer {
         this.transferAmount = transferAmount;
     }
 
+
+
+
     public List<User> goodUser(String username){
         List<User> activeUser = new ArrayList<>();
 
@@ -134,6 +142,8 @@ public class Transfer {
         }
         return activeUser;
     }
+
+
 
     @Override
     public String toString() {

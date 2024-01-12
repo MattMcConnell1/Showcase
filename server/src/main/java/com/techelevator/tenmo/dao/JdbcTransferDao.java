@@ -1,8 +1,8 @@
 package com.techelevator.tenmo.dao;
 
+import com.techelevator.tenmo.model.PostBalanceView;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
-import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -49,20 +49,48 @@ public class JdbcTransferDao implements TransferDao{
         return null;
     }
 
+    public PostBalanceView viewTransfer (int transferId){
+
+        PostBalanceView postBalanceView = null;
+        String sql = "SELECT transfer_id, transfer_amount, sender_user_name, receiver_user_name\n" +
+                "FROM transfer;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, transferId);
+
+        if(results.next()){
+            PostBalanceView postBalanceView1 = new PostBalanceView(results.getInt("transfer_id"), results.getDouble("transfer_amount"), "sender_user_name", "receiver_user_name");
+
+        }
+        return postBalanceView;
+    }
+
     @Override
     public List<User> getUserForTransfer(int userId) {
         return null;
     }
 
     @Override
-    public Transfer sendTransfer(int sendUserId, String receiveUserId, double amount) {
-        return null;
+    public Transfer sendTransfer(int sendUserId, int receiveUserId, double transferAmount, double senderBalance, double receiverBalance) {
+        Transfer transfer = new Transfer();
+
+        if(sendUserId == receiveUserId){
+            System.out.println("Error cannot send yourself money");
+        } else if (transferAmount <= 0) {
+            System.out.println("Error cannot send $0 or a negative amount");
+        } else if (senderBalance < transferAmount) {
+            System.out.println("Error, your poor");
+
+        } else {
+
+        }
+        return transfer;
     }
 
     @Override
     public List<Transfer> getTransferStatus(int userId, String transferStatus) {
         return null;
     }
+
+
 
     private Transfer mapRowToUser (SqlRowSet rs){
         Transfer transfer = new Transfer();

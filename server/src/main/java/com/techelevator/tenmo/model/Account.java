@@ -7,6 +7,7 @@ public class Account {
     private int accountId;
 
     private double accountBalance = 1000.00;
+
     boolean activeAccount;
 
     public Account(int accountId, double accountBalance, boolean activeAccount) {
@@ -41,6 +42,8 @@ public class Account {
     public void setActiveAccount(boolean activeAccount) {
         this.activeAccount = activeAccount;
     }
+
+
 
     @Override
     public String toString() {

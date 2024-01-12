@@ -34,7 +34,8 @@ CREATE TABLE transfer (
 	user_id int NOT NULL,
 	sender_user_id int NOT NULL,
 	receiver_user_id int NOT NULL,
-	user_name varchar (50) NOT NULL, 
+	sender_user_name varchar (50) NOT NULL,
+	receiver_user_name varchar (50) NOT NULL,
 	transfer_status varchar(20) NOT NULL,
 	sender_balance numeric(13,2) NOT NULL,
 	receiver_balance numeric(13,2) NOT NULL,
@@ -45,6 +46,8 @@ CREATE TABLE transfer (
 	
 	
 );
+
+SELECT sender_user_name, receiver_user_name FROM transfer;
 -- Sequence to start account_id values at 2001 instead of 1
 -- Note: Use similar sequences with unique starting values for additional tables
 CREATE SEQUENCE seq_account_id
@@ -79,6 +82,11 @@ ADD sender_user_id int,
 ADD receiver_user_id int,
 ADD user_name varchar (50),
 ADD transfer_amount numeric (13,2);
+
+ALTER TABLE transfer
+ADD sender_user_name varchar(50),
+ADD receiver_user_name varchar(50),
+DROP COLUMN user_name;
 
 
 SELECT * 
