@@ -28,9 +28,9 @@ public class UserController {
         // get accounts associated with user
         // make sure its authenticated
         User user = userDao.findByUsername(username);
+        List<Account> userAccounts = userDao.get
 
-        if(user != null){
-//            List<Account> userAccount =
+       for(Account account : user)
 
         }
     }

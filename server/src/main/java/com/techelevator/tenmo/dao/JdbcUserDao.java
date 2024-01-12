@@ -1,6 +1,5 @@
 package com.techelevator.tenmo.dao;
 
-import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserAccountView;
 import org.springframework.dao.DataAccessException;
@@ -10,8 +9,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +42,25 @@ public class JdbcUserDao implements UserDao {
             users.add(user);
         }
         return users;
+    }
+
+    @Override
+    public UserAccountView findAccount(int userID){
+        UserAccountView userAccountView = null;
+        String sql = "SELECT balance FROM account WHERE userId = " +
+                "?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userID);
+
+
+       if(results.next()) {
+          userAccountView = new UserAccountView(results.getString("username"),"balance" );
+
+            // sql rowset results
+            /// create user accountview object
+            // add to a list of user account view
+
+       }
+        return userAccountView;
     }
 
     @Override
