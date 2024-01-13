@@ -8,7 +8,8 @@ import java.util.List;
 public interface AccountDao {
 
     List<Account> findAll();
-    int findAccountById (int accountId);
+    List<Account> findAccountById (int accountId);
     boolean activateAccount (boolean activeAccount);
 
+    boolean activateAccount(int accountId);
 }

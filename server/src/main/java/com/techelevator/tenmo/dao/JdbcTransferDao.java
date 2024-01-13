@@ -38,6 +38,7 @@ public class JdbcTransferDao implements TransferDao{
     public Transfer getTransferInformation(int transferId) {
         //TODO: send/receiver userId, sender/receiveraccountId,
         // sender/receiverBalance transfer amount
+        Transfer transfer = new Transfer();
         String sql = "SELECT sender_user_id, receiver_user_id, user_name, sender_account_id,receiver_account_id, transfer_amount\n" +
                 "FROM transfer\n" +
                 "WHERE transfer_id = transfer_id;\n";
@@ -46,7 +47,7 @@ public class JdbcTransferDao implements TransferDao{
             return mapRowToTransfer(results);
         }
 
-        return null;
+        return transfer;
     }
 
     public PostBalanceView viewTransfer (int transferId){
