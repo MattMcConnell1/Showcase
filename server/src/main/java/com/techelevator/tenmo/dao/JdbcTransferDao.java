@@ -26,7 +26,7 @@ public class JdbcTransferDao implements TransferDao{
         String sql = "SELECT user_id FROM tenmo_user;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
         while(results.next()){
-            Transfer transfer = mapRowToUser(results);
+            Transfer transfer = mapRowToTransfer(results);
             transfers.add(transfer);
         }
 
@@ -43,7 +43,7 @@ public class JdbcTransferDao implements TransferDao{
                 "WHERE transfer_id = transfer_id;\n";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, transferId);
         if(results.next()){
-            return mapRowToUser(results);
+            return mapRowToTransfer(results);
         }
 
         return null;
@@ -65,7 +65,16 @@ public class JdbcTransferDao implements TransferDao{
 
     @Override
     public List<User> getUserForTransfer(int userId) {
-        return null;
+        List<User> users = new ArrayList<>();
+        String sql = "SELECT user_id, username FROM tenmoe_user;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+        while(results.next()){
+            User user = new User();
+            user.setId(results.getInt("user_id"));
+            user.setUsername(results.getString("username"));
+            users.add(user);
+        }
+        return users;
     }
 
     @Override
@@ -80,19 +89,65 @@ public class JdbcTransferDao implements TransferDao{
             System.out.println("Error, your poor");
 
         } else {
+            String sqlInsertTransfer = "INSERT INTO transfer (sender_account_id, receiver_account_id, user_id, sender_user_id, receiver_user_id, sender_user_name, receiver_user_name, transfer_status, sender_balance, receiver_balance, transfer_amount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING transfer_id;";
+            int transferId = jdbcTemplate.queryForObject(sqlInsertTransfer, Integer.class, sendUserId, receiveUserId, sendUserId, sendUserId, receiveUserId, "sender_user_name", "receiver_user_name", "status", senderBalance, receiverBalance, transferAmount);
 
+
+            String sqlUpdateSenderBalance = "UPDATE transfer SET sender_balance = sender_balance - ? WHERE user_id = ?;";
+            jdbcTemplate.update(sqlUpdateSenderBalance, transferAmount, sendUserId);
+
+
+            String sqlUpdateReceiverBalance = "UPDATE transfer SET receiver_balance = receiver_balance + ? WHERE user_id = ?;";
+            jdbcTemplate.update(sqlUpdateReceiverBalance, transferAmount, receiveUserId);
+
+
+            String sqlSelectTransfer = "SELECT transfer_id, sender_account_id, receiver_account_id, user_id, sender_user_id, receiver_user_id, sender_user_name, receiver_user_name, transfer_status, sender_balance, receiver_balance, transfer_amount FROM transfer WHERE transfer_id = ?;";
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSelectTransfer, transferId);
+
+
+            if (results.next()) {
+                transfer.setTransferId(results.getInt("transfer_id"));
+                transfer.setSenderAccountId(results.getInt("sender_account_id"));
+                transfer.setReceiverAccountId(results.getInt("receiver_account_id"));
+                transfer.setUserId(results.getInt("user_id"));
+                transfer.setSenderUserId(results.getInt("sender_user_id"));
+                transfer.setReceiverUserId(results.getInt("receiver_user_id"));
+                transfer.setSenderUserName(results.getString("sender_user_name"));
+                transfer.setReceiverUserName(results.getString("receiver_user_name"));
+                transfer.setTransferStatus(results.getString("transfer_status"));
+                transfer.setSenderBalance(results.getDouble("sender_balance"));
+                transfer.setReceiverBalance(results.getDouble("receiver_balance"));
+                transfer.setTransferAmount(results.getDouble("transfer_amount"));
+            }
         }
         return transfer;
+
+
+
+
+
     }
 
     @Override
     public List<Transfer> getTransferStatus(int userId, String transferStatus) {
-        return null;
+
+        List<Transfer> transfers = new ArrayList<>();
+        String sql = "SELECT transfer_id, transfer_status, transfer_amount, sender_user_id, receiver_user_id\n" +
+                    "FROM transfer WHERE sender_user_id = ? AND transfer_status = ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId, transferStatus);
+        while(results.next()){
+            Transfer transfer = mapRowToTransfer(results);
+            transfers.add(transfer);
+        }
+        return transfers;
     }
 
 
 
-    private Transfer mapRowToUser (SqlRowSet rs){
+
+
+
+    private Transfer mapRowToTransfer (SqlRowSet rs){
         Transfer transfer = new Transfer();
         transfer.setUserId(rs.getInt("user_id"));
         transfer.setSenderUser(rs.getString("send_user_id"));

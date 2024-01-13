@@ -58,4 +58,9 @@ public class ActiveTransfer {
     public void setReceiverBalance(double receiverBalance) {
         this.receiverBalance = receiverBalance;
     }
+
+    public ActiveTransfer makeTransfer(int sendUserId, int receiveUserId, double transferAmount, double senderBalance, double receiverBalance){
+        ActiveTransfer transfer = new ActiveTransfer(sendUserId, receiveUserId,transferAmount, senderBalance,receiverBalance);
+        return transfer;
+    }
 }

@@ -12,9 +12,8 @@ public interface TransferDao {
     List<Transfer> getTransfersByUserId(int userId);
     Transfer getTransferInformation (int transferId);
     List<User> getUserForTransfer(int userId);
-    Transfer sendTransfer(int sendUserId, String receiveUserId, double amount);
 
-    Transfer sendTransfer(int sendUserId, int receiveUserId, double amount);
+    Transfer sendTransfer(int sendUserId, int receiveUserId, double transferAmount, double senderBalance, double receiverBalance);
 
     List<Transfer> getTransferStatus(int userId, String transferStatus);
 

@@ -9,19 +9,20 @@ public class Transfer {
     private String senderUser;
     private String receiverUser;
     private String username;
-
     private int transferId;
     private String transferStatus;
     private double senderBalance;
     private double receiverBalance;
-
-
     private int senderAccountId;
     private int receiverAccountId;
     private double transferAmount;
+    private int senderUserId;
+    private int receiverUserId;
+    private String senderUserName;
+    private String receiverUserName;
 
 
-    public Transfer(int userId, String senderUser, String receiverUser, String username, int transferId, String transferStatus, double senderBalance, double receiverBalance, int senderAccountId, int receiverAccountId, double transferAmount) {
+    public Transfer(int userId, String senderUser, String receiverUser, String username, int transferId, String transferStatus, double senderBalance, double receiverBalance, int senderAccountId, int receiverAccountId, double transferAmount, int senderUserId, int receiverUserId, String senderUserName, String receiverUserName) {
         this.userId = userId;
         this.senderUser = senderUser;
         this.receiverUser = receiverUser;
@@ -33,10 +34,11 @@ public class Transfer {
         this.senderAccountId = senderAccountId;
         this.receiverAccountId = receiverAccountId;
         this.transferAmount = transferAmount;
-
+        this.senderUserId = senderUserId;
+        this.receiverUserId = receiverUserId;
+        this.senderUserName = senderUserName;
+        this.receiverUserName = receiverUserName;
     }
-
-
 
     public Transfer() {
 
@@ -124,6 +126,38 @@ public class Transfer {
 
     public double getTransferAmount() {
         return transferAmount;
+    }
+
+    public int getSenderUserId() {
+        return senderUserId;
+    }
+
+    public void setSenderUserId(int senderUserId) {
+        this.senderUserId = senderUserId;
+    }
+
+    public int getReceiverUserId() {
+        return receiverUserId;
+    }
+
+    public void setReceiverUserId(int receiverUserId) {
+        this.receiverUserId = receiverUserId;
+    }
+
+    public String getSenderUserName() {
+        return senderUserName;
+    }
+
+    public void setSenderUserName(String senderUserName) {
+        this.senderUserName = senderUserName;
+    }
+
+    public String getReceiverUserName() {
+        return receiverUserName;
+    }
+
+    public void setReceiverUserName(String receiverUserName) {
+        this.receiverUserName = receiverUserName;
     }
 
     public void setTransferAmount(double transferAmount) {
