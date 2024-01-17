@@ -2,7 +2,8 @@ Project Title: Weather App
 
         Description:
 
-        The Weather App is a dynamic and user-friendly web application designed to provide real-time weather information for any location worldwide. Developed using HTML, CSS, and JavaScript, this application offers an intuitive interface that seamlessly integrates with the OpenWeather API to deliver accurate and up-to-date weather forecasts.
+        The Weather App is a dynamic and user-friendly web application designed to provide real-time weather information for any location worldwide. Developed using HTML, CSS,
+        and JavaScript, this application offers an intuitive interface that seamlessly integrates with the OpenWeather API to deliver accurate and up-to-date weather forecasts.
 
         Key Features:
 
@@ -38,4 +39,5 @@ Project Title: Weather App
 
         Conclusion:
 
-        The Weather App combines functionality with a sleek and user-friendly design, offering users a reliable tool for staying informed about current and upcoming weather conditions. Whether planning a trip or checking the local forecast, this application ensures a seamless and visually engaging experience.
+        The Weather App combines functionality with a sleek and user-friendly design, offering users a reliable tool for staying informed about current and upcoming weather conditions. 
+        Whether planning a trip or checking the local forecast, this application ensures a seamless and visually engaging experience.
